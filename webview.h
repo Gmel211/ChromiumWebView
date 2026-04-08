@@ -2,7 +2,6 @@
 #define WEBVIEW_H
 
 #include <stdbool.h>
-#include <unistd.h>  // for pid_t
 
 #ifdef __cplusplus
 extern "C" {
