@@ -15,6 +15,25 @@ void CreateContext(JWindowSettings *settings, JDisplayContent *content, bool LOG
 
 ---
 
+## Webview Window Flags
+
+```
+typedef enum {
+    ADDRESSBAR = 1,
+    FULLSCREEN = 1,
+    INCOGNITO = 1,
+    KIOSKMODE = 1,
+    NO_ADDRESSBAR = 0,
+    NO_FULLSCREEN = 0,
+    NO_INCOGNITO = 0,
+    NO_KIOSKMODE = 0,
+    NO_JEB_LOG = false
+} JEflags;
+
+```
+
+---
+
 ## Examples
 
 ### Render URL
