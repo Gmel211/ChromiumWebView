@@ -55,7 +55,7 @@ void CreateContext(JWindowSettings *settings, JDisplayContent *content, bool Err
     }
 
     if (ErrorS) {
-        int fd = open("JEB.log", O_WRONLY | O_CREAT | O_TRUNC, 0644);
+        int fd = open("Webview.log", O_WRONLY | O_CREAT | O_TRUNC, 0644);
         if (fd < 0) {
             WriteLaunchError(ErrorS, "Failed to create log file!\n");
             return;
