@@ -45,7 +45,6 @@ int main() {
 
     WindowSizeInit(&settings.WindowSize, 800, 600); // set window size for Chromium
      WindowSettingsInit(&settings, NO_ADDRESSBAR, NO_FULLSCREEN, INCOGNITO, NO_KIOSKMODE); // available browser modes
-     WindowSettingsInit(&settings, NO_ADDRESSBAR, NO_FULLSCREEN, INCOGNITO, NO_KIOSKMODE); // available browser modes (green = enabled)
      DisplayContent(&content, URL, "https://www.youtube.com");
     CreateContext(&settings, &content, NO_WEBVIEW_LOG); // Create the browser window and display content
 
@@ -67,7 +66,6 @@ int main() {
 
     WindowSizeInit(&settings.WindowSize, 800, 600);
      WindowSettingsInit(&settings, NO_ADDRESSBAR, NO_FULLSCREEN, INCOGNITO, NO_KIOSKMODE);
-     WindowSettingsInit(&settings, NO_ADDRESSBAR, NO_FULLSCREEN, INCOGNITO, NO_KIOSKMODE); // green = enabled, red = disabled
      DisplayContent(&content, DOCUMENT, "path/to/local/file.html");
     CreateContext(&settings, &content, NO_WEBVIEW_LOG);
 
