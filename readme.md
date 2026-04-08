@@ -59,14 +59,13 @@ int main() {
 
 ---
 
-## Compiling
-
-```
-gcc target.c -lwebview -o target
-```
-
----
-
 ## Supported Platforms
 
 - Linux
+
+---
+
+## Compiling
+```
+gcc target.c -lwebview -o target
+```
