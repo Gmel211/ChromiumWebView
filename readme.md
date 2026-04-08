@@ -29,7 +29,6 @@ typedef enum {
     NO_KIOSKMODE = 0,
     NO_JEB_LOG = false
 } JEflags;
-
 ```
 
 ---
