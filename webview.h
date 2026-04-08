@@ -1,5 +1,5 @@
-#ifndef JEB_H
-#define JEB_H
+#ifndef WEBVIEW_H
+#define WEBVIEW_H
 
 #include <stdbool.h>
 #include <unistd.h>  // for pid_t
