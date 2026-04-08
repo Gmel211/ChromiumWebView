@@ -44,17 +44,18 @@ typedef enum {
     FULLSCREEN = 1,
     INCOGNITO = 1,
     KIOSKMODE = 1,
+    WEBVIEW_LOG = true,
     NO_ADDRESSBAR = 0,
     NO_FULLSCREEN = 0,
     NO_INCOGNITO = 0,
     NO_KIOSKMODE = 0,
-    NO_JEB_LOG = false
+    NO_WEBVIEW_LOG = false
 } JEflags;
 
 void WindowSizeInit(JWindowSize *sz, int width, int height);
 int WindowSettingsInit(JWindowSettings *settings, int addressbar, int fullscreen, int incognito, int kioskmode);
 int DisplayContent(JDisplayContent *content, int Ctype, char* buffer);
-void CreateContext(JWindowSettings *settings, JDisplayContent *content, bool ErrorS);
+void CreateContext(JWindowSettings *settings, JDisplayContent *content, bool LOG);
 
 #ifdef __cplusplus
 }
