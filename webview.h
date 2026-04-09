@@ -10,6 +10,7 @@ extern "C" {
 #define URL 300
 #define DOCUMENT 900
 
+
 typedef struct {
     int width;
     int height;
@@ -43,19 +44,30 @@ typedef enum {
     FULLSCREEN = 1,
     INCOGNITO = 1,
     KIOSKMODE = 1,
-    WEBVIEW_LOG = true,
+    ENABLE_GPU = 1,
+    CHROMIUM_LOGS =1,
+    DEBUG = 1,
+    JEB_LOG = true,
     NO_ADDRESSBAR = 0,
     NO_FULLSCREEN = 0,
     NO_INCOGNITO = 0,
     NO_KIOSKMODE = 0,
+    DISABLE_GPU = 0,
+    NO_CHROMIUM_LOGS = 0,
+    NO_DEBUG = 0,
     NO_WEBVIEW_LOG = false
 } JEflags;
 
-void WindowSizeInit(JWindowSize *sz, int width, int height);
-int WindowSettingsInit(JWindowSettings *settings, int addressbar, int fullscreen, int incognito, int kioskmode);
-int DisplayContent(JDisplayContent *content, int Ctype, char* buffer);
-void CreateContext(JWindowSettings *settings, JDisplayContent *content, bool LOG);
+typedef enum {
+    JSIGINT = 2,
+    JSIGKILL = 9,
+    JSIGTERM = 15
+} JSysSignal;
 
+
+int CreateContext(JWindowSettings *settings, JDisplayContent *content, int ChromiumLogs ,bool ErrorS);
+void DestroyContext(int pid,int debug, int signal);
+void JwebviewTerminate(int pid);
 #ifdef __cplusplus
 }
 #endif
