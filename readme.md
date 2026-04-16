@@ -1,5 +1,11 @@
 #   Jeb Webview Tutorial
 
+#NOTE
+
+Jebs webview is currently under maintance **DO NOT** attepmt to git clone currently the library
+
+---
+
 jebs Webview is a small launcher which uses the Chromium browser to render HTML files and URL files with minimal syntax.
 
 ---
