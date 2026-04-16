@@ -1,11 +1,5 @@
 #   Jeb Webview Tutorial
 
-## NOTE
-
-Jebs webview is currently under maintance **DO NOT** attepmt to git clone currently the library
-
----
-
 jebs Webview is a small launcher which uses the Chromium browser to render HTML files and URL files with minimal syntax.
 
 ---
@@ -13,8 +7,13 @@ jebs Webview is a small launcher which uses the Chromium browser to render HTML 
 ## Webview Functions
 
 ```
+//Version 2.0
 int CreateContext(JWindowSettings *settings, JDisplayContent *content, int ChromiumLogs ,bool ErrorS);
-void DestroyContext(int pid,int debug, int signal);
+void DestroyContext(int pid, int signal);
+void JwebviewTerminate(int pid);
+//Version 2.5
+int CreateContext(JWindowSettings *settings, JDisplayContent *content);
+void DestroyContext(int pid, int signal);
 void JwebviewTerminate(int pid);
 ```
 
@@ -48,28 +47,21 @@ void JwebviewTerminate(int pid);
 ### Render URL
 
 ```
-#include <webview.h>
-#include <stdio.h>
+#include "webview.h" 
 
-int main() {
-    JWindowSettings settings = {
-        .AddressBar = NO_ADDRESSBAR,
-        .FullScreen = NO_FULLSCREEN,
-        .Incognito = INCOGNITO,
-        .KioskMode = NO_KIOSKMODE,
-        .DisableGPU = ENABLE_GPU,
-        .Zoom = 100,
-        .WindowSize = {800,600}
-    };
-    JDisplayContent content = {
-        .Ctype = URL,
-        .buffer = "https://vscode.dev/"
-    };
-
-    int pid = CreateContext(&settings,&content, NO_CHROMIUM_LOGS ,NO_WEBVIEW_LOG);
-
-    JwebviewTerminate(pid);
-    return 0;
+int main(void) { 
+    JWindowSettings settings = { 
+        .WindowSize = {800,600}, 
+        .Zoom = 100, 
+        .AddressBar = 1 
+    }; 
+    JDisplayContent content = { 
+        .Ctype = URL, 
+        .buffer = "https://www.youtube.com" 
+    }; 
+    int pid = CreateContext(&settings,&content); 
+    JwebviewTerminate(pid); 
+    return 0; 
 }
 ```
 
@@ -78,28 +70,21 @@ int main() {
 ### Render HTML
 
 ```
-#include "webview.h"
-#include <stdio.h>
+#include "webview.h" 
 
-int main() {
-    JWindowSettings settings = {
-        .AddressBar = NO_ADDRESSBAR,
-        .FullScreen = NO_FULLSCREEN,
-        .Incognito = INCOGNITO,
-        .KioskMode = NO_KIOSKMODE,
-        .DisableGPU = ENABLE_GPU,
-        .Zoom = 100,
-        .WindowSize = {800,600}
-    };
-    JDisplayContent content = {
-        .Ctype = DOCUMENT,
-        .buffer = "target.html"
-    };
-
-    int pid = CreateContext(&settings,&content, NO_CHROMIUM_LOGS ,NO_WEBVIEW_LOG);
-
-    JwebviewTerminate(pid);
-    return 0;
+int main(void) { 
+    JWindowSettings settings = { 
+        .WindowSize = {800,600}, 
+        .Zoom = 100, 
+        .AddressBar = 1 
+    }; 
+    JDisplayContent content = { 
+        .Ctype = DOCUMENT, 
+        .buffer = "test.html" 
+    }; 
+    int pid = CreateContext(&settings,&content); 
+    JwebviewTerminate(pid); 
+    return 0; 
 }
 ```
 
@@ -114,7 +99,7 @@ int main() {
 ## Compiling
 
 ```bash
-gcc target.c -lwebview -o target
+gcc -DJVERSION_2_X target.c -lwebview -o target
 ```
 
 ---
@@ -122,3 +107,4 @@ gcc target.c -lwebview -o target
 ## Versions
 - 1.0 Release
 - 2.0 New API more safety & control
+- 2.5 more minimalism to CreateContext + new flags introduced
