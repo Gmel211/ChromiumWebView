@@ -120,4 +120,4 @@ gcc target.c -lwebview -o target
 - 1.0 Release
 - 2.0 New API more safety & control
 - 2.5 more minimalism to CreateContext + new flags introduced
-- 3.0 fixed some name inconsistencies + introduced objects + #define works
+- 3.0 fixed some name inconsistencies + introduced objects + #define works and flatpak support
