@@ -50,6 +50,15 @@ JWindow* JCreateContext(JWindowSize* WindowSize,JWindowSettings* WindowSettings,
         if (win_pid == 0) {
             char *argv[1024];
             int i = 0;
+            if (WindowSettings->JWLOG) {
+                int log_fd = open("jwebview.log", O_WRONLY | O_CREAT | O_TRUNC, 0644);
+                if (log_fd >= 0) {
+                    dup2(log_fd, STDOUT_FILENO);
+                    dup2(log_fd, STDERR_FILENO);
+                    close(log_fd);
+                }
+            }
+            
             if (!flatpak) {
                 argv[i++] = "chromium";
             }
@@ -68,6 +77,13 @@ JWindow* JCreateContext(JWindowSize* WindowSize,JWindowSettings* WindowSettings,
                 argv[i++] = "--disable-breakpad"; 
                 argv[i++] = "--disable-crash-reporter"; 
             } 
+            
+            if (WindowSettings->Zoom > 0 && WindowSettings->Zoom != 100) {
+                float zoom_factor = WindowSettings->Zoom / 100.0f;
+                char zoom_arg[32];
+                snprintf(zoom_arg, sizeof(zoom_arg), "--force-device-scale-factor=%.2f", zoom_factor);
+                argv[i++] = zoom_arg;
+            }
             
             // modes
             if (WindowSettings->KioskMode) 
@@ -96,25 +112,48 @@ JWindow* JCreateContext(JWindowSize* WindowSize,JWindowSettings* WindowSettings,
                 argv[i++] = "--disable-infobars"; 
                 argv[i++] = "--disable-session-crashed-bubble";
             }
-
+            
+            if (WindowSettings->DisableGoogleFeatures) {
+                argv[i++] = "--disable-background-networking";
+                argv[i++] = "--disable-sync";
+                argv[i++] = "--disable-default-apps";
+                argv[i++] = "--no-service-autorun";
+                argv[i++] = "--disable-component-extensions-with-background-pages";
+                argv[i++] = "--disable-features=GoogleNow,GoogleSearch,GoogleDrive,GoogleCloudMessaging,ChromeWhatsNew";
+                argv[i++] = "--disable-component-update";
+                argv[i++] = "--disable-domain-reliability";
+                argv[i++] = "--disable-demo-mode";
+                argv[i++] = "--disable-background-timer-throttling";
+            }
+            
+            if (WindowSize->width > 0 && WindowSize->height > 0) {
+                char size_arg[64];
+                char position_arg[64];
+                snprintf(size_arg, sizeof(size_arg), "--window-size=%d,%d", WindowSize->width, WindowSize->height);
+                snprintf(position_arg, sizeof(position_arg), "--window-position=0,0");
+                argv[i++] = size_arg;
+                argv[i++] = position_arg;
+                argv[i++] = "--new-window";
+            }
+            
+            // Load content
             if (DisplayContent->Ctype == URL) {
-                snprintf(app_arg, sizeof(app_arg),"--app=%s",DisplayContent->buffer);
-                argv[i++] = app_arg;
+                argv[i++] = DisplayContent->buffer;
             }
             else if (DisplayContent->Ctype == DOCUMENT) {
                 char cwd[PATH_MAX];
-                getcwd(cwd,sizeof(cwd));
-                strcat(cwd,"/");
-                strcat(cwd,DisplayContent->buffer);
-                snprintf(document_arg,sizeof(document_arg), "--app=file://%s", cwd);
-                argv[i++] = document_arg;
+                getcwd(cwd, sizeof(cwd));
+                char file_url[PATH_MAX + 20];
+                snprintf(file_url, sizeof(file_url), "file://%s/%s", cwd, DisplayContent->buffer);
+                argv[i++] = file_url;
             }
+            
             argv[i] = NULL;
             execvp(browser_path, argv);
             _exit(1);
         }
-        strcpy(win->app_arg,app_arg);
-        strcpy(win->browser_path,browser_path);
+        strcpy(win->app_arg, app_arg);
+        strcpy(win->browser_path, browser_path);
         win->pid = win_pid;
         win->height = WindowSize->height;
         win->width = WindowSize->width;
