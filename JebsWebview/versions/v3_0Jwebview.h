@@ -13,7 +13,7 @@ typedef struct {
 } JWindowSize;
 
 typedef struct {
-    bool Zoom;
+    int Zoom;
     bool AddressBar;
     bool FullScreen;
     bool Incognito;
