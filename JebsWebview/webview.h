@@ -15,10 +15,8 @@
  * of this software and associated documentation files (the "Software"), to deal
  * in the Software without restriction...
  *
- * (full MIT license text continues here)
- *
- * THE SOFTWARE IS PROVIDED "AS IS", WITHOUT WARRANTY OF ANY KIND...
- */
+ * (full MIT license text continues at LICENSE.txt)
+*/
 
 #ifndef WEBVIEW_H
 #define WEBVIEW_H
